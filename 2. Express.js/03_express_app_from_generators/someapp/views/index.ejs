@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <p><%= appdata.meeting.where.name %>, <%= appdata.meeting.date %>, <%= appdata.meeting.time %></p>
+
+    <ul>
+      <% appdata.social.forEach((item) => { %>
+        <li>
+          <a href="<%= item.url %>">
+            <%= item.shortname %>
+          </a>
+
+          <img src="<%= item.img %>" alt="<%= item.shortname %>">
+        </li>
+      <% }) %>
+    </ul>
+
+    <ul>
+      <% artwork.forEach(art => { %>
+        <li><%= art %></li>
+      <% }) %>
+    </ul>
+  </body>
+</html>
