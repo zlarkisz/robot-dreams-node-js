@@ -1,0 +1,12 @@
+### Get all cats (GET)
+GET http://localhost:3000/cats
+
+### Create a cat (POST)
+POST http://localhost:3000/cats
+Content-Type: application/json
+
+{
+  "name": "Cat 1",
+  "age": 1,
+  "breed": "Breed 1"
+}
