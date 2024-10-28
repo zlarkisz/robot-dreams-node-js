@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:latest
+    image: postgres:17
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
@@ -8,11 +8,11 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5434:5432"
+      - "5433:5432"
 
   app:
     build: .
-    command: npm start
+    command: npm run dev
     volumes:
       - .:/usr/src/app
     working_dir: /usr/src/app
@@ -22,4 +22,3 @@ services:
       - "3000:3000"
     depends_on:
       - db
-    env_file: .env.docker
