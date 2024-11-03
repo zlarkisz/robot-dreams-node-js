@@ -1,0 +1,65 @@
+### Create user
+POST http://localhost:3000/user
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "age": 18
+}
+
+### Update user
+PUT http://localhost:3000/user
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6727e9460a05aa001fbb68b1",
+  "name": "John Doe1",
+  "email": "john@example.com",
+  "age": 18
+}
+
+
+### Comment
+POST http://localhost:3000/comment
+Accept: application/json
+Content-Type: application/json
+
+{
+  "content": "This is a comment",
+  "userId": "6727e9460a05aa001fbb68b1"
+}
+
+### Get comments
+GET http://localhost:3000/user/6727e9460a05aa001fbb68b1/comments
+
+### Create comments
+POST http://localhost:3000/comments/create-comments
+Accept: application/json
+Content-Type: application/json
+
+[
+  {
+    "content": "First comment",
+    "userId": "6727e9460a05aa001fbb68b1"
+  },
+  {
+    "content": "Second comment",
+    "userId": "6727e9460a05aa001fbb68b1"
+  }
+]
+
+
+### Update comments
+PUT http://localhost:3000/comments/update-comments
+Accept: application/json
+Content-Type: application/json
+
+[
+  {
+    "content": "First (updated)",
+    "_id": "6727e9460a05aa001fbb68b1"
+  }
+]
