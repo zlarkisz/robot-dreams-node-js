@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const Comment = require("../models/comment");
-const client = require("../redisClient");
+const { client, setWithTTL } = require("../redisClient");
 
 const findUserById = async (userId) => {
   const cacheKey = `user:${userId}`;
@@ -10,7 +10,7 @@ const findUserById = async (userId) => {
   }
   const user = await User.findById(userId);
   if (user) {
-    await client.set(cacheKey, JSON.stringify(user), { EX: 3600 });
+    await setWithTTL(cacheKey, JSON.stringify(user));
   }
   return user;
 };
@@ -19,7 +19,7 @@ const createUser = async (data) => {
   const user = new User(data);
   const newUser = await user.save();
   const cacheKey = `user:${newUser._id}`;
-  await client.set(cacheKey, JSON.stringify(newUser), { EX: 3600 });
+  await setWithTTL(cacheKey, JSON.stringify(newUser));
   return newUser;
 };
 
@@ -32,7 +32,7 @@ const updateUser = async (data) => {
   );
   if (updatedUser) {
     const cacheKey = `user:${id}`;
-    await client.set(cacheKey, JSON.stringify(updatedUser), { EX: 3600 });
+    await setWithTTL(cacheKey, JSON.stringify(updatedUser));
   }
   return updatedUser;
 };
@@ -44,9 +44,7 @@ const createComment = async (data) => {
   const comments = await Comment.find({ userId: newComment.userId }).populate(
     "userId",
   );
-  await client.set(userCommentsCacheKey, JSON.stringify(comments), {
-    EX: 3600,
-  });
+  await setWithTTL(userCommentsCacheKey, JSON.stringify(comments));
   return newComment;
 };
 
@@ -71,7 +69,7 @@ const getUserComments = async (userId) => {
     return JSON.parse(cachedComments);
   }
   const comments = await Comment.find({ userId }).populate("userId");
-  await client.set(cacheKey, JSON.stringify(comments), { EX: 3600 });
+  await setWithTTL(cacheKey, JSON.stringify(comments));
   return comments;
 };
 

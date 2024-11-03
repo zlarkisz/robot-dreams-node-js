@@ -15,4 +15,15 @@ async function connectToRedis() {
 
 connectToRedis();
 
-module.exports = client;
+async function setWithTTL(key, value, ttl = 3600) {
+  try {
+    await client.set(key, value, { EX: ttl });
+  } catch (err) {
+    console.error(`Error setting key ${key} with TTL:`, err);
+  }
+}
+
+module.exports = {
+  client,
+  setWithTTL
+};
